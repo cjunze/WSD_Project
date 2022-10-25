@@ -10704,19 +10704,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\46625\\.nuget\\packages\\": {}
+    "C:\\Users\\haiph\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\46625\\Desktop\\WSD\\Group Project\\WesternInn_Jason_James_Tin\\WesternInn_Jason_James_Tin.csproj",
+      "projectUniqueName": "C:\\Users\\haiph\\Source\\Repos\\WSD_Project\\WesternInn_Jason_James_Tin\\WesternInn_Jason_James_Tin.csproj",
       "projectName": "WesternInn_Jason_James_Tin",
-      "projectPath": "C:\\Users\\46625\\Desktop\\WSD\\Group Project\\WesternInn_Jason_James_Tin\\WesternInn_Jason_James_Tin.csproj",
-      "packagesPath": "C:\\Users\\46625\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\46625\\Desktop\\WSD\\Group Project\\WesternInn_Jason_James_Tin\\obj\\",
+      "projectPath": "C:\\Users\\haiph\\Source\\Repos\\WSD_Project\\WesternInn_Jason_James_Tin\\WesternInn_Jason_James_Tin.csproj",
+      "packagesPath": "C:\\Users\\haiph\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\haiph\\Source\\Repos\\WSD_Project\\WesternInn_Jason_James_Tin\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\46625\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\haiph\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10792,7 +10792,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
