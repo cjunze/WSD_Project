@@ -1,0 +1,31 @@
+﻿@page
+@model WesternInn_Jason_James_Tin.Pages.Rooms.SearchRoomModel
+@{
+    ViewData["Title"] = "Search Rooms";
+}
+
+<h2>Search Rooms</h2>
+<br/>
+
+<form asp-page="SearchRoom">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Room.BedCount" class="control-label fw-bold"></label>
+        <select asp-for="Room.BedCount" asp-items="Model.ListBedCount" class="form-control">
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Booking.CheckIn" class="control-label fw-bold"></label>
+        <input asp-for="Booking.CheckIn" class="form-control" />
+        <span asp-validation-for="Booking.CheckIn" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Booking.CheckOut" class="control-label fw-bold"></label>
+        <input asp-for="Booking.CheckOut" class="form-control" />
+        <span asp-validation-for="Booking.CheckOut" class="text-danger"></span>
+    </div>
+    <br/>
+    <div class="form-group">
+        <input type="submit" value="Search Room" class="btn btn-primary" />
+    </div>
+</form>

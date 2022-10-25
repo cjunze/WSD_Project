@@ -1,0 +1,65 @@
+﻿@page
+@using System.Security.Claims
+@model WesternInn_Jason_James_Tin.Pages.Bookings.MyBookingsModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    string _email = User.FindFirst(ClaimTypes.Name).Value;
+}
+
+<h1>My Bookings</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>               
+                    @Html.DisplayNameFor(model => model.Booking[0].TheGuest.Surname)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.Booking[0].TheGuest.GivenName)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.Booking[0].RoomID)
+            </th>
+            <th>
+                <a asp-page="MyBookings" asp-route-sortorder="@ViewData["NextCheckInOrder"]">
+                    @Html.DisplayNameFor(model => model.Booking[0].CheckIn)
+                </a>
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.Booking[0].CheckOut)
+            </th>
+            <th>
+                <a asp-page="MyBookings" asp-route-sortorder="@ViewData["NextPriceOrder"]">
+                    @Html.DisplayNameFor(model => model.Booking[0].Cost)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Booking.Where(a => a.GuestEmail == _email))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TheGuest.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TheGuest.GivenName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckIn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckOut)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
