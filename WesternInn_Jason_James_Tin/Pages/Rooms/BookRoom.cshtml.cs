@@ -2,7 +2,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Security.Claims;
 using WesternInn_Jason_James_Tin.Models;
 
 
@@ -18,30 +21,78 @@ namespace WesternInn_Jason_James_Tin.Pages.Rooms
             _context = context;
         }
 
-        public SelectList ListBedCount { get; set; } = default!;
-
         [BindProperty(SupportsGet = true)]
-        public Room Room { get; set; } = default!;
+        public BookRoomInput BookRoomInput { get; set; }
+        public IList<Booking> BookingResult { get; set; }
+
+        public Booking Booking { get; set; } = default!;
 
         public IActionResult OnGet()
         {
-            ListBedCount = new SelectList(_context.Room, "BedCount", "BedCount");
+            ViewData["RoomIdList"] = new SelectList(_context.Room, "Id", "Id");
             return Page();
         }
-        //public void OnGet()
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var roomIdInput = new SqliteParameter("roomId", BookRoomInput.RoomIdInput);
+            var checkInInput = new SqliteParameter("checkIn", BookRoomInput.CheckInInput);
+            var checkOutInput = new SqliteParameter("checkOut", BookRoomInput.CheckOutInput);
+
+            // this query search for overlap bookings with intended checkin or checkout date, if there has 1 booking -> cannot insert.
+            var listRoom = _context.Booking.FromSqlRaw("select [Booking].* from [Booking] where [Booking].RoomID = @roomId "
+                                                       + " and ([Booking].CheckIn < @checkOut and @checkIn < [Booking].CheckOut)"
+                                                    , roomIdInput, checkInInput, checkOutInput);
+
+            BookingResult = await listRoom.ToListAsync();
+
+            if (BookingResult.Count > 0)
+            {
+                return Page();
+            } else
+            {
+                var emptyBooking = new Booking();
+
+                var success = await TryUpdateModelAsync<Booking>(emptyBooking, "Booking",
+                                    s => s.RoomID, s => s.GuestEmail, s => s.CheckIn, s => s.CheckOut, s => s.Cost);
+                if (success)
+                {
+                    string _email = User.FindFirst(ClaimTypes.Name).Value;
+                    emptyBooking.GuestEmail = _email;
+                    emptyBooking.RoomID = BookRoomInput.RoomIdInput;
+                    emptyBooking.CheckIn = BookRoomInput.CheckInInput;
+                    emptyBooking.CheckOut = BookRoomInput.CheckOutInput;
+                    var theRoom = await _context.Room.FindAsync(emptyBooking.RoomID);
+                    var totalDays = (BookRoomInput.CheckOutInput - BookRoomInput.CheckInInput).Days;
+                    emptyBooking.Cost = totalDays * theRoom.Price;
+
+                    _context.Booking.Add(emptyBooking);
+                    await _context.SaveChangesAsync();
+                    ViewData["SuccessBooking"] = "true";
+                    ViewData["RoomID"] = emptyBooking.RoomID;
+                    ViewData["Level"] = emptyBooking.TheRoom.Level;
+                    ViewData["CheckIn"] = emptyBooking.CheckIn;
+                    ViewData["CheckOut"] = emptyBooking.CheckOut;
+                    ViewData["Cost"] = emptyBooking.Cost;
+                    return Page();
+                }
+                else
+                {
+                    return Page();
+                }
+
+            }
+        }
+
+        //pu
+        //blic void OnGet()
         //{
         //}
 
-        //public async Task<IActionResult> OnPostAsync()
-        //{
-        //    ListBedCount = new SelectList(_context.Room, "BedCount", "BedCount");
-
-        //    if (!ModelState.IsValid || Room == null)
-        //    {
-        //        return Page();
-        //    }
-
-
-        //}
     }
 }

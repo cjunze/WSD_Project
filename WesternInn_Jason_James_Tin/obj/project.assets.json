@@ -10709,11 +10709,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\haiph\\Source\\Repos\\WSD_Project\\WesternInn_Jason_James_Tin\\WesternInn_Jason_James_Tin.csproj",
+      "projectUniqueName": "C:\\Users\\haiph\\source\\repos\\WSD_Project\\WesternInn_Jason_James_Tin\\WesternInn_Jason_James_Tin.csproj",
       "projectName": "WesternInn_Jason_James_Tin",
-      "projectPath": "C:\\Users\\haiph\\Source\\Repos\\WSD_Project\\WesternInn_Jason_James_Tin\\WesternInn_Jason_James_Tin.csproj",
+      "projectPath": "C:\\Users\\haiph\\source\\repos\\WSD_Project\\WesternInn_Jason_James_Tin\\WesternInn_Jason_James_Tin.csproj",
       "packagesPath": "C:\\Users\\haiph\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\haiph\\Source\\Repos\\WSD_Project\\WesternInn_Jason_James_Tin\\obj\\",
+      "outputPath": "C:\\Users\\haiph\\source\\repos\\WSD_Project\\WesternInn_Jason_James_Tin\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\haiph\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -9,23 +9,84 @@
 
 <form asp-page="SearchRoom">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Room.BedCount" class="control-label fw-bold"></label>
-        <select asp-for="Room.BedCount" asp-items="Model.ListBedCount" class="form-control">
+    <div class="form-group m-3">
+        <label asp-for="SearchRoomInput.BedCountInput" class="control-label fw-bold"></label>
+        <select asp-for="SearchRoomInput.BedCountInput" asp-items="ViewBag.BedCountList" class="form-control">
+        <span asp-validation-for="SearchRoomInput.BedCountInput" class="text-danger"></span>
         </select>
     </div>
-    <div class="form-group">
-        <label asp-for="Booking.CheckIn" class="control-label fw-bold"></label>
-        <input asp-for="Booking.CheckIn" class="form-control" />
-        <span asp-validation-for="Booking.CheckIn" class="text-danger"></span>
+   <div class="form-group m-3">
+        <label asp-for="SearchRoomInput.CheckInInput" class="control-label fw-bold"></label>
+        <input asp-for="SearchRoomInput.CheckInInput" class="form-control" />
+        <span asp-validation-for="SearchRoomInput.CheckInInput" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Booking.CheckOut" class="control-label fw-bold"></label>
-        <input asp-for="Booking.CheckOut" class="form-control" />
-        <span asp-validation-for="Booking.CheckOut" class="text-danger"></span>
-    </div>
+    <div class="form-group m-3">
+        <label asp-for="SearchRoomInput.CheckOutInput" class="control-label fw-bold"></label>
+        <input asp-for="SearchRoomInput.CheckOutInput" class="form-control" />
+        <span asp-validation-for="SearchRoomInput.CheckOutInput" class="text-danger"></span>
+    </div> 
     <br/>
     <div class="form-group">
         <input type="submit" value="Search Room" class="btn btn-primary" />
     </div>
 </form>
+
+@* Check this page is requested for the first time or after 'post' method.
+    If 'post', then display the comparison results. *@
+@if (Model.RoomResult != null)
+{
+    <div>
+        <hr />
+        @if (Model.RoomResult.Count == 0)
+        {
+            <h4>
+                Sorry, there are no rooms available for you. Please try again.
+            </h4>
+        }
+        else
+        {
+            <h2>List of Available Rooms</h2>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoomResult[0].Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoomResult[0].Level)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoomResult[0].BedCount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoomResult[0].Price)
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.RoomResult)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Level)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BedCount)
+                        </td>
+                         <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+}
+
+@* Inlcude JavaScript for client-side vaildations.*@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
