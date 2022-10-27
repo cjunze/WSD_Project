@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,7 @@ using WesternInn_Jason_James_Tin.Models;
 
 namespace WesternInn_Jason_James_Tin.Pages.Bookings
 {
+    [Authorize(Roles = "administrators")]
     public class DeleteModel : PageModel
     {
         private readonly WesternInn_Jason_James_Tin.Data.ApplicationDbContext _context;

@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using WesternInn_Jason_James_Tin.Data;
 using WesternInn_Jason_James_Tin.Models;
 
 namespace WesternInn_Jason_James_Tin.Pages.Bookings
 {
+    [Authorize(Roles = "administrators")]
     public class EditModel : PageModel
     {
         private readonly WesternInn_Jason_James_Tin.Data.ApplicationDbContext _context;
@@ -22,6 +26,7 @@ namespace WesternInn_Jason_James_Tin.Pages.Bookings
 
         [BindProperty]
         public Booking Booking { get; set; } = default!;
+        public IList<Booking> BookingResult { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -50,25 +55,43 @@ namespace WesternInn_Jason_James_Tin.Pages.Bookings
                 return Page();
             }
 
-            _context.Attach(Booking).State = EntityState.Modified;
+            var roomIdInput = new SqliteParameter("roomId", Booking.RoomID);
+            var checkInInput = new SqliteParameter("checkIn", Booking.CheckIn);
+            var checkOutInput = new SqliteParameter("checkOut", Booking.CheckOut);
+            // this query search for overlap bookings with intended checkin or checkout date, if there has 1 booking -> cannot insert.
+            var listRoom = _context.Booking.FromSqlRaw("select [Booking].* from [Booking] where [Booking].RoomID = @roomId "
+                                                       + " and ([Booking].CheckIn < @checkOut and @checkIn < [Booking].CheckOut) "                                                     
+                                                    , roomIdInput, checkInInput, checkOutInput);
 
-            try
+            BookingResult = await listRoom.ToListAsync();
+
+            if (BookingResult.Count > 0)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
+                ViewData["SuccessBooking"] = false;
+                return Page();
+            } else
             {
-                if (!BookingExists(Booking.Id))
+                _context.Attach(Booking).State = EntityState.Modified;
+
+                try
                 {
-                    return NotFound();
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!BookingExists(Booking.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
+                return RedirectToPage("./Index");
+
             }
 
-            return RedirectToPage("./Index");
         }
 
         private bool BookingExists(int id)
