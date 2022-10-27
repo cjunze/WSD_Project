@@ -21,7 +21,7 @@ namespace WesternInn_Jason_James_Tin.Pages.Bookings
 
         public IActionResult OnGet()
         {
-        ViewData["GuestEmail"] = new SelectList(_context.Guest, "Email", "Email");
+        ViewData["GuestEmail"] = new SelectList(_context.Guest, "Email", "FullName");
         ViewData["RoomID"] = new SelectList(_context.Room, "Id", "Id");
             return Page();
         }

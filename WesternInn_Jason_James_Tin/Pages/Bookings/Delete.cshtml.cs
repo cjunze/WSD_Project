@@ -22,6 +22,8 @@ namespace WesternInn_Jason_James_Tin.Pages.Bookings
         [BindProperty]
       public Booking Booking { get; set; }
 
+      public IList<Booking> BookingDetail { get; set; } = default!;
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Booking == null)
@@ -37,6 +39,10 @@ namespace WesternInn_Jason_James_Tin.Pages.Bookings
             }
             else 
             {
+                 BookingDetail = await _context.Booking
+                    .Include(b => b.TheGuest).Include(b => b.TheRoom)
+                    .ToListAsync();
+
                 Booking = booking;
             }
             return Page();

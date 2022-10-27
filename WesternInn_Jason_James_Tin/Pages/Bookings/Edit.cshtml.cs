@@ -36,8 +36,8 @@ namespace WesternInn_Jason_James_Tin.Pages.Bookings
                 return NotFound();
             }
             Booking = booking;
-           ViewData["GuestEmail"] = new SelectList(_context.Guest, "Email", "Email");
-           ViewData["RoomID"] = new SelectList(_context.Room, "Id", "Level");
+           ViewData["GuestEmail"] = new SelectList(_context.Guest, "Email", "FullName");
+           ViewData["RoomID"] = new SelectList(_context.Room, "Id", "Id");
             return Page();
         }
 

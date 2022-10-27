@@ -22,6 +22,10 @@ namespace WesternInn_Jason_James_Tin.Models
         [RegularExpression(@"^[A-Za-z-']*$", ErrorMessage = "Sorry, the given name must consist of only English letters, hyphen and apostrophe and has a length between 2 and 20 characters inclusive")]
         public string GivenName { get; set; } = string.Empty;
 
+        [NotMapped]
+        [Display(Name = "Full Name")]
+        public string FullName => $"{Surname} {GivenName}";
+
         [Required]
         [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Sorry, the postcode should contain exactly 4 digits.")]
         public string PostCode { get; set; } = string.Empty;

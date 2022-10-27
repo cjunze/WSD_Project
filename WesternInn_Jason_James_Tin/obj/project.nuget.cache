@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0IyCWK7cjIDNHqBPr3B+vB77b2EkykRRq6yCjbQLojgubHV9UKlIa5nFEHsxZA3xjCOLLV3083Q1fcK+ljtNVQ==",
+  "dgSpecHash": "8oj3R1MktTY0OmF3ClvZC2SJIZ0B0mJuuc8if1Vp/0cUwZhnLY+3izm3RYq9Lmo1sc0vIi/OBT5OavyJt4MUnw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\haiph\\Source\\Repos\\WSD_Project\\WesternInn_Jason_James_Tin\\WesternInn_Jason_James_Tin.csproj",
+  "projectFilePath": "C:\\Users\\haiph\\source\\repos\\WSD_Project\\WesternInn_Jason_James_Tin\\WesternInn_Jason_James_Tin.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\haiph\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\haiph\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
