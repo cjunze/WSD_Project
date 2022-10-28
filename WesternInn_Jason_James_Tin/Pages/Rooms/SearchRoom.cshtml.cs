@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Globalization;
 using WesternInn_Jason_James_Tin.Models;
 
 namespace WesternInn_Jason_James_Tin.Pages.Rooms
@@ -21,9 +22,8 @@ namespace WesternInn_Jason_James_Tin.Pages.Rooms
 
         [BindProperty(SupportsGet = true)]
         public SearchRoomInput SearchRoomInput { get; set; }
+        public BookRoomInput BookRoomInput { get; set; }
         public IList<Room> RoomResult { get; set; }
-
-
         public IActionResult OnGet()
         {
             int[] BedCountRange = { 1, 2, 3 };
@@ -34,6 +34,10 @@ namespace WesternInn_Jason_James_Tin.Pages.Rooms
 
         public async Task<IActionResult> OnPostAsync()
         {
+            int[] BedCountRange = { 1, 2, 3 };
+            List<int> listBedCount = new List<int>(BedCountRange);
+            ViewData["BedCountList"] = new SelectList(listBedCount);
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -49,7 +53,7 @@ namespace WesternInn_Jason_James_Tin.Pages.Rooms
                                                            + "@checkOut and @checkIn < [Booking].CheckOut)", bedCountInput, checkInInput, checkOutInput);
 
             RoomResult = await listRoom.ToListAsync();
-
+ 
             return Page();
         }
         //public void OnGet()

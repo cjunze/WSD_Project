@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Globalization;
 using System.Security.Claims;
 using WesternInn_Jason_James_Tin.Models;
 
@@ -27,6 +28,7 @@ namespace WesternInn_Jason_James_Tin.Pages.Rooms
 
         public Booking Booking { get; set; } = default!;
 
+        
         public IActionResult OnGet()
         {
             ViewData["RoomIdList"] = new SelectList(_context.Room, "Id", "Id");
@@ -65,10 +67,10 @@ namespace WesternInn_Jason_James_Tin.Pages.Rooms
                     string _email = User.FindFirst(ClaimTypes.Name).Value;
                     emptyBooking.GuestEmail = _email;
                     emptyBooking.RoomID = BookRoomInput.RoomIdInput;
-                    emptyBooking.CheckIn = BookRoomInput.CheckInInput;
-                    emptyBooking.CheckOut = BookRoomInput.CheckOutInput;
+                    emptyBooking.CheckIn = (DateTime)BookRoomInput.CheckInInput;
+                    emptyBooking.CheckOut = (DateTime)BookRoomInput.CheckOutInput;
                     var theRoom = await _context.Room.FindAsync(emptyBooking.RoomID);
-                    var totalDays = (BookRoomInput.CheckOutInput - BookRoomInput.CheckInInput).Days;
+                    var totalDays = (emptyBooking.CheckOut - emptyBooking.CheckIn).Days;
                     emptyBooking.Cost = totalDays * theRoom.Price;
 
                     _context.Booking.Add(emptyBooking);
@@ -76,8 +78,8 @@ namespace WesternInn_Jason_James_Tin.Pages.Rooms
                     ViewData["SuccessBooking"] = "true";
                     ViewData["RoomID"] = emptyBooking.RoomID;
                     ViewData["Level"] = emptyBooking.TheRoom.Level;
-                    ViewData["CheckIn"] = emptyBooking.CheckIn;
-                    ViewData["CheckOut"] = emptyBooking.CheckOut;
+                    ViewData["CheckIn"] = emptyBooking.CheckIn.ToShortDateString();
+                    ViewData["CheckOut"] = emptyBooking.CheckOut.ToShortDateString();
                     ViewData["Cost"] = emptyBooking.Cost;
                     return Page();
                 }
